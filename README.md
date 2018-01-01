@@ -1,6 +1,6 @@
 # Resplash
 Resplash is an android example application to demonstrate MVP clean architecture using Butterknife, Dagger 2, Data binding, Glide, Retrofit and RxJava.
-The app uses Unsplash APIs to retrieve and display HD images. Additionally, the app also has the option to download an image and set it as your device's wallpaper.
+The app uses Unsplash APIs to retrieve and display HD images. Additionally, the app also has the options to download an image and set it as your device's wallpaper.
 
 ## Screenshots
 
