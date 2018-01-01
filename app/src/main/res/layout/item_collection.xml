@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.codemybrainsout.imageviewer.viewmodel.CollectionViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        card_view:cardBackgroundColor="@color/cardBackground"
+        card_view:cardCornerRadius="1dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/item_collection_LL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{viewModel.onClickCollection}"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/item_collection_user_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:clickable="true"
+                android:onClick="@{viewModel.onClickUser}"
+                android:padding="10dp">
+
+                <com.codemybrainsout.imageviewer.custom.CircleImageView
+                    android:id="@+id/item_collection_user_IV"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    app:imageUrl="@{viewModel.userImageUrl}" />
+
+                <TextView
+                    android:id="@+id/item_collection_user_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/item_collection_user_IV"
+                    android:bufferType="spannable"
+                    android:text="@{viewModel.user}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_body" />
+
+                <TextView
+                    android:id="@+id/item_collection_username_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_collection_user_TV"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/item_collection_user_IV"
+                    android:bufferType="spannable"
+                    android:text="@{viewModel.username}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/item_collection_IV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:minHeight="200dp"
+                app:color="@{viewModel.color}"
+                app:imageUrl="@{viewModel.imageUrl}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/item_collection_title_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:bufferType="spannable"
+                    android:text="@{viewModel.title}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_large_title" />
+
+                <TextView
+                    android:id="@+id/item_collection_description_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:bufferType="spannable"
+                    android:text="@{viewModel.description}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_body" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

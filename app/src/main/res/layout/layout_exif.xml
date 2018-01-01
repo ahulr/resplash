@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="exif"
+            type="com.codemybrainsout.imageviewer.viewmodel.ExifViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_exif_LL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparentBlack"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_camera" />
+
+            <TextView
+                android:id="@+id/layout_exif_make_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@{exif.make}"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_exif_model_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{exif.model}"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/layout_exif_focal_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{exif.focal}"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="|"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/layout_exif_aperture_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{exif.aperture}"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="|"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/layout_exif_exposure_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{exif.exposure}"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="|"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/layout_exif_iso_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{exif.iso}"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/layout_exif_likes_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/likes"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/layout_exif_downloads_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_exif_likes_static"
+                android:layout_marginTop="5dp"
+                android:text="@string/downloads"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/layout_exif_likes_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/layout_exif_likes_static"
+                android:gravity="right"
+                android:text="@{exif.likes}"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/layout_exif_downloads_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_exif_likes_TV"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/layout_exif_downloads_static"
+                android:gravity="right"
+                android:text="@{exif.downloads}"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

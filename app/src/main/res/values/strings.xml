@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Resplash</string>
+    <string name="title_photo">Curated Photos</string>
+    <string name="title_collection">Featured Collections</string>
+    <string name="search">Search on Unsplash</string>
+    <string name="browse_all_collections">Browse All Collections</string>
+    <string name="browse_all_photos">Browse All Photos</string>
+    <string name="downloads">Downloads</string>
+    <string name="likes">Likes</string>
+    <string name="no_internet">No Internet Connection.</string>
+    <string name="set_wallpaper">Set as wallpaper</string>
+    <string name="download">Download</string>
+    <string name="permission_rationale">Resplash needs access to your storage to save images on your device.</string>
+    <string name="wallpaper_success">Image set as wallpaper.</string>
+    <string name="download_success">Image downloaded successfully.</string>
+    <string name="error">Error! Please try again.</string>
+</resources>
