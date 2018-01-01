@@ -4,17 +4,23 @@ The app uses Unsplash APIs to fetch data.
 
 ## Screenshots
 
-![](preview/home.png)
+# Home
+![](screenshots/home.png)
 
-![](preview/collection.png)
+# Collection
+![](screenshots/collection.png)
 
-![](preview/detail.png)
+# Detail
+![](screenshots/detail.png)
 
-![](preview/search.png)
+# Search
+![](screenshots/search.png)
 
-![](preview/user.png)
+# User
+![](screenshots/user.png)
 
-![](preview/exif.png)
+# Info
+![](screenshots/exif.png)
 
 ## Credits
 
