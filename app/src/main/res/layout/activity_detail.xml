@@ -8,12 +8,12 @@
     tools:context="com.codemybrainsout.imageviewer.view.detail.DetailActivity">
 
     <it.sephiroth.android.library.imagezoom.ImageViewTouch
-        android:id="@+id/activity_detail_IVT"
+        android:id="@+id/image_view_touch"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/activity_detail_toolbar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/transparentBlack">
@@ -21,13 +21,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right">
+            android:gravity="end">
 
             <LinearLayout
-                android:id="@+id/activity_detail_set_wallpaper"
+                android:id="@+id/layout_set_wallpaper"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="center">
 
                 <TextView
@@ -36,36 +37,37 @@
                     android:text="@string/set_wallpaper" />
 
                 <ImageView
-                    android:id="@+id/activity_detail_set_wallpaper_IV"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:id="@+id/image_view_set_wallpaper"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:background="@drawable/white_ripple"
                     android:src="@drawable/ic_wallpaper" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/activity_detail_download"
+                android:id="@+id/layout_download"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/white_ripple"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:src="@drawable/ic_download" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -74,47 +76,52 @@
         android:background="@color/transparentBlack">
 
         <LinearLayout
-            android:id="@+id/activity_detail_user_LL"
+            android:id="@+id/layout_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/activity_detail_info_LL"
+            android:layout_toStartOf="@+id/layout_info"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="@dimen/margin_small">
 
             <com.codemybrainsout.imageviewer.custom.CircleImageView
-                android:id="@+id/activity_detail_user_IV"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:id="@+id/image_view_user"
+                android:layout_width="@dimen/user_image_size"
+                android:layout_height="@dimen/user_image_size" />
 
             <TextView
-                android:id="@+id/activity_detail_user_TV"
+                android:id="@+id/text_view_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
                 android:textColor="@color/white" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/activity_detail_info_LL"
+            android:id="@+id/layout_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="@drawable/white_ripple"
             android:clickable="true"
-            android:visibility="gone">
+            android:focusable="true"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="10dp"
+                android:layout_width="@dimen/icon_size_big"
+                android:layout_height="@dimen/icon_size_big"
+                android:layout_margin="@dimen/margin_small"
+                android:contentDescription="@string/info"
                 android:src="@drawable/ic_info"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
 
         </LinearLayout>
 

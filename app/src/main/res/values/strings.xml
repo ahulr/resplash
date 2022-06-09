@@ -14,4 +14,8 @@
     <string name="wallpaper_success">Image set as wallpaper.</string>
     <string name="download_success">Image downloaded successfully.</string>
     <string name="error">Error! Please try again.</string>
+    <string name="info">Info</string>
+    <string name="followers">Followers</string>
+    <string name="divider">|</string>
+    <string name="following">Following</string>
 </resources>

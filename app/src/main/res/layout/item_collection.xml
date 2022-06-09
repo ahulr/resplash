@@ -9,7 +9,7 @@
             type="com.codemybrainsout.imageviewer.viewmodel.CollectionViewModel" />
     </data>
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,8 @@
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:onClick="@{viewModel.onClickCollection}"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusable="true">
 
             <RelativeLayout
                 android:id="@+id/item_collection_user_RL"
@@ -34,7 +35,8 @@
                 android:background="?android:selectableItemBackground"
                 android:clickable="true"
                 android:onClick="@{viewModel.onClickUser}"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:focusable="true">
 
                 <com.codemybrainsout.imageviewer.custom.CircleImageView
                     android:id="@+id/item_collection_user_IV"
@@ -47,8 +49,8 @@
                     android:id="@+id/item_collection_user_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/item_collection_user_IV"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/item_collection_user_IV"
                     android:bufferType="spannable"
                     android:text="@{viewModel.user}"
                     android:textColor="@color/white"
@@ -59,8 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/item_collection_user_TV"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/item_collection_user_IV"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/item_collection_user_IV"
                     android:bufferType="spannable"
                     android:text="@{viewModel.username}"
                     android:textColor="@color/white"
@@ -107,6 +109,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </layout>

@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/resplash.iml" filepath="$PROJECT_DIR$/resplash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/resplash.iml" filepath="$PROJECT_DIR$/.idea/modules/resplash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/resplash.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/resplash.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/resplash.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/resplash.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/resplash.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/resplash.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/resplash.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/resplash.app.unitTest.iml" />
     </modules>
   </component>
 </project>

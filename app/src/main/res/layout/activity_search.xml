@@ -2,35 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/parent"
     tools:context="com.codemybrainsout.imageviewer.view.search.SearchActivity">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/activity_search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mt_hint="@string/search"
-        app:mt_maxSuggestionsCount="5" />
+        app:queryHint="@string/search" />
 
     <RelativeLayout
-        android:id="@+id/activity_search_RL"
+        android:id="@+id/layout_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/activity_search_swipe_refresh_layout"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/activity_search_RV"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 
