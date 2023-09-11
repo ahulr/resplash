@@ -12,20 +12,22 @@ import android.renderscript.ScriptIntrinsicBlur
  * Created by ahulr on 10-06-2017.
  */
 object ImageUtils {
-    fun blur(context: Context?, image: Bitmap?, mRadius: Int): Bitmap? {
-        if (null == image) return null
-        val outputBitmap: Bitmap = Bitmap.createBitmap(image)
-        val renderScript: RenderScript = RenderScript.create(context)
-        val tmpIn: Allocation = Allocation.createFromBitmap(renderScript, image)
-        val tmpOut: Allocation = Allocation.createFromBitmap(renderScript, outputBitmap)
 
-        //Intrinsic Gausian blur filter
-        val theIntrinsic: ScriptIntrinsicBlur =
-            ScriptIntrinsicBlur.create(renderScript, RangeValueIterator.Element.U8_4(renderScript))
-        theIntrinsic.setRadius(mRadius)
-        theIntrinsic.setInput(tmpIn)
-        theIntrinsic.forEach(tmpOut)
-        tmpOut.copyTo(outputBitmap)
-        return outputBitmap
+    fun blur(context: Context?, image: Bitmap?): Bitmap? {
+        val bitmap = image?.copy(image.config, true)
+        val rs = RenderScript.create(context)
+        val input = Allocation.createFromBitmap(
+            rs,
+            bitmap,
+            Allocation.MipmapControl.MIPMAP_FULL,
+            Allocation.USAGE_SCRIPT
+        )
+        val output = Allocation.createTyped(rs, input.type)
+        val script = ScriptIntrinsicBlur.create(rs, U8_4(rs))
+        script.setRadius(10f)
+        script.setInput(input)
+        script.forEach(output)
+        output.copyTo(bitmap)
+        return bitmap
     }
 }

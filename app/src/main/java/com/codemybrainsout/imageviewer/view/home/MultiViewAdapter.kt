@@ -48,26 +48,24 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val v: View
         return when (viewType) {
             VIEW_TYPE_PHOTO -> {
-                v = inflater.inflate(R.layout.item_photo_minimal, parent, false)
+                var v = inflater.inflate(R.layout.item_photo_minimal, parent, false)
                 PhotoViewHolder(v)
             }
+
             VIEW_TYPE_COLLECTION -> {
-                v = inflater.inflate(R.layout.item_collection_minimal, parent, false)
+                var v = inflater.inflate(R.layout.item_collection_minimal, parent, false)
                 CollectionViewHolder(v)
             }
+
             VIEW_TYPE_FOOTER -> {
-                v = inflater.inflate(R.layout.item_footer, parent, false)
+                var v = inflater.inflate(R.layout.item_footer, parent, false)
                 val viewHolder = FooterViewHolder(v)
                 val layoutParams: StaggeredGridLayoutManager.LayoutParams =
                     viewHolder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
                 layoutParams.isFullSpan = true
                 viewHolder
-            }
-            else -> {
-                null
             }
         }
     }
@@ -188,7 +186,6 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
 
         init {
-            ButterKnife.bind(this, itemView)
             itemView.setOnClickListener(this)
         }
     }

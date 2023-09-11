@@ -39,14 +39,13 @@ class UserActivity : AppCompatActivity(), UserContract.View, RecyclerViewItemCli
     private val page = 1
     private val limit = 20
 
-    lateinit var multiViewAdapter: MultiViewAdapter
+    private val multiViewAdapter: MultiViewAdapter by lazy { MultiViewAdapter(this) }
     private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.apply {
-            multiViewAdapter = MultiViewAdapter(this@UserActivity)
             multiViewAdapter.setRecyclerViewItemClickListener(this@UserActivity)
             val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, 1)
             recyclerViewPhotos.layoutManager = staggeredGridLayoutManager
@@ -70,10 +69,10 @@ class UserActivity : AppCompatActivity(), UserContract.View, RecyclerViewItemCli
         binding.imageViewBackground.post {
             val circularReveal: Animator = ViewAnimationUtils.createCircularReveal(
                 binding.imageViewBackground,
-                binding.imageViewBackground!!.width / 2,
+                binding.imageViewBackground.width / 2,
                 0,
                 0f,
-                binding.imageViewBackground!!.width.toFloat()
+                binding.imageViewBackground.width.toFloat()
             )
             circularReveal.interpolator = AccelerateInterpolator(1.5f)
             circularReveal.duration = 500
@@ -136,18 +135,17 @@ class UserActivity : AppCompatActivity(), UserContract.View, RecyclerViewItemCli
 
     override fun onUserClick(user: User?) {}
 
-    override fun setToolbar() {
-        setSupportActionBar(activityUserToolbar)
-        val actionBar: ActionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false)
-            actionBar.setDisplayHomeAsUpEnabled(true)
+    fun setToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.let {
+            it.setDisplayShowTitleEnabled(false)
+            it.setDisplayHomeAsUpEnabled(true)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.home) {
+        if (id == android.R.id.home) {
             onBackPressed()
             return true
         }

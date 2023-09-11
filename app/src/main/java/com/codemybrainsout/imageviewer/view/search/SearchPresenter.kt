@@ -29,21 +29,14 @@ class SearchPresenter @Inject constructor(private val searchService: SearchServi
         searchService.searchPhoto(query, page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<Search> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(search: Search) {
-                    val photos: List<Photo>? = search.results
-                    photos?.let { view.refreshPhotos(it) }
-                    view.hideLoading()
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.showError(e.message)
-                    view.hideLoading()
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                val photos: List<Photo>? = it.results
+                photos?.let { photos -> view.refreshPhotos(photos) }
+                view.hideLoading()
+            }, {
+                it.printStackTrace()
+                view.showError(it.message)
+                view.hideLoading()
             })
     }
 
@@ -51,19 +44,12 @@ class SearchPresenter @Inject constructor(private val searchService: SearchServi
         searchService.searchPhoto(query, page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<Search> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(search: Search) {
-                    val photos: List<Photo>? = search.results
-                    view.addPhotos(photos)
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.showError(e.message)
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                val photos: List<Photo>? = it.results
+                view.addPhotos(photos)
+            }, {
+                it.printStackTrace()
+                view.showError(it.message)
             })
     }
 }

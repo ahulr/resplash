@@ -16,6 +16,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
+import androidx.core.content.FileProvider
+import androidx.core.content.FileProvider.getUriForFile
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
@@ -36,27 +38,29 @@ import java.util.concurrent.ExecutionException
  */
 class FileDownloadService(name: String?) : IntentService(name) {
 
-    private var mNotifyManager: NotificationManager? = null
-    private var mBuilder: NotificationCompat.Builder? = null
+    private lateinit var mNotifyManager: NotificationManager
+    private lateinit var mBuilder: NotificationCompat.Builder
     private val id = 1
     private var wallpaper = false
 
     override fun onHandleIntent(intent: Intent?) {
         Timber.e("Service Started")
 
-        // Get the URL for the file to download
-        val passedURL: String = intent.getStringExtra(Extra.URL)
-        wallpaper = intent.getBooleanExtra(Extra.WALLPAPER, false)
-        downloadFile(passedURL)
+        intent?.let {
+            // Get the URL for the file to download
+            val passedURL = it.getStringExtra(Extra.URL)
+            wallpaper = it.getBooleanExtra(Extra.WALLPAPER, false)
+            downloadFile(passedURL)
+        }
     }
 
-    private fun downloadFile(url: String) {
+    private fun downloadFile(url: String?) {
         if (TextUtils.isEmpty(url)) {
             return
         }
-        mNotifyManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+        mNotifyManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mBuilder = NotificationCompat.Builder(this)
-        mBuilder.setContentTitle(getResources().getString(R.string.app_name))
+        mBuilder.setContentTitle(resources.getString(R.string.app_name))
             .setContentText("Downloading image")
             .setOngoing(true)
             .setPriority(Notification.PRIORITY_HIGH)
@@ -65,7 +69,7 @@ class FileDownloadService(name: String?) : IntentService(name) {
         // Displays the progress bar for the first time.
         mNotifyManager.notify(id, mBuilder.build())
         try {
-            val bitmap: Bitmap = Glide.with(this).load(url).asBitmap()
+            val bitmap: Bitmap = Glide.with(this).asBitmap().load(url)
                 .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
             if (bitmap != null) {
                 if (wallpaper) {
@@ -103,11 +107,7 @@ class FileDownloadService(name: String?) : IntentService(name) {
             out.flush()
             out.close()
             val f = File(myDir, fname)
-            contentUri = GenericFileProvider.getUriForFile(
-                this,
-                BuildConfig.APPLICATION_ID.toString() + ".provider",
-                f
-            )
+            contentUri = getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", f)
             if (Build.VERSION.SDK_INT >= 19) {
 
                 /*Intent mediaScanIntent = new Intent(
@@ -118,10 +118,10 @@ class FileDownloadService(name: String?) : IntentService(name) {
                 val values = ContentValues()
                 values.put(MediaStore.Images.Media.DATA, file.path)
                 values.put(MediaStore.Images.Media.MIME_TYPE, "image/*")
-                getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
             } else {
                 MediaScannerConnection.scanFile(
-                    getApplicationContext(),
+                    applicationContext,
                     arrayOf(file.path),
                     arrayOf("image/*"),
                     null
@@ -137,9 +137,9 @@ class FileDownloadService(name: String?) : IntentService(name) {
 
     private fun updateNotification(contentUri: Uri?, bitmap: Bitmap) {
         val i = Intent()
-        i.setAction(Intent.ACTION_VIEW)
+        i.action = Intent.ACTION_VIEW
         i.setDataAndType(contentUri, "image/*")
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        i.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
             this,
             0 /* Request code */,
@@ -159,14 +159,14 @@ class FileDownloadService(name: String?) : IntentService(name) {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val icon: Bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)
+        val icon: Bitmap = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
         val title = "Resplash"
         val description = "Download complete"
         mBuilder.setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(description)
             .setStyle(
-                Notification.BigPictureStyle().setBigContentTitle(title).bigPicture(bitmap)
+                NotificationCompat.BigPictureStyle().setBigContentTitle(title).bigPicture(bitmap)
                     .bigLargeIcon(icon)
                     .setSummaryText(description)
             )
@@ -174,7 +174,7 @@ class FileDownloadService(name: String?) : IntentService(name) {
             .setAutoCancel(true)
             .setVibrate(longArrayOf(0, 100, 100, 100, 100))
             .setSound(defaultSoundUri)
-            .setPriority(android.support.v7.app.NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setOngoing(false)
             .setProgress(0, 0, false)
             .setContentIntent(pendingIntent)
@@ -216,7 +216,7 @@ class FileDownloadService(name: String?) : IntentService(name) {
     private fun setAsWallpaper(bitmap: Bitmap) {
         mNotifyManager.cancel(id)
         val wallpaperManager: WallpaperManager =
-            WallpaperManager.getInstance(getApplicationContext())
+            WallpaperManager.getInstance(applicationContext)
         try {
             wallpaperManager.setBitmap(bitmap)
             success()

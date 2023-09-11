@@ -18,7 +18,7 @@ class SearchContract {
     interface View : BaseView<Presenter?> {
         fun showUser(user: User?)
         fun showPhoto(photo: Photo?)
-        fun refreshPhotos(list: List<Photo?>)
-        fun addPhotos(list: List<Photo?>?)
+        fun refreshPhotos(list: List<Photo>)
+        fun addPhotos(list: List<Photo>)
     }
 }

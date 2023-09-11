@@ -25,23 +25,24 @@ class HomeActivity : AppCompatActivity(), HomeContract.View, RecyclerViewItemCli
     private val binding by viewBinding(ActivityHomeBinding::inflate)
 
     @Inject
-    var multiViewAdapter: MultiViewAdapter? = null
+    lateinit var multiViewAdapter: MultiViewAdapter
 
     @Inject
-    var homePresenter: HomePresenter? = null
+    lateinit var homePresenter: HomePresenter
 
     var limit = 6
-    var orderBy = "latest"
+    private var orderBy = "latest"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        multiViewAdapter!!.setRecyclerViewItemClickListener(this)
-        multiViewAdapter!!.setFooterItemClickListener(this)
+        multiViewAdapter.setRecyclerViewItemClickListener(this)
+        multiViewAdapter.setFooterItemClickListener(this)
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, 1)
         binding.recyclerViewHome.layoutManager = staggeredGridLayoutManager
-        binding.recyclerViewHome.adapter = multiViewAdapter!!
-        homePresenter!!.loadPhotos(limit, orderBy)
+        binding.recyclerViewHome.adapter = multiViewAdapter
+        homePresenter.loadPhotos(limit, orderBy)
+        binding.cardViewSearch.setOnClickListener { openSearch() }
     }
 
     override fun showLoading() {
@@ -53,14 +54,14 @@ class HomeActivity : AppCompatActivity(), HomeContract.View, RecyclerViewItemCli
     }
 
     override fun setPhotos(list: List<Photo>) {
-        homePresenter!!.loadCollections(limit)
-        multiViewAdapter!!.addPhotos(list)
-        multiViewAdapter!!.setFooter(Footer.Type.Photo)
+        homePresenter.loadCollections(limit)
+        multiViewAdapter.addPhotos(list)
+        multiViewAdapter.setFooter(Footer.Type.Photo)
     }
 
     override fun setCollections(list: List<Collection>) {
-        multiViewAdapter!!.addCollections(list)
-        multiViewAdapter!!.setFooter(Footer.Type.Collection)
+        multiViewAdapter.addCollections(list)
+        multiViewAdapter.setFooter(Footer.Type.Collection)
     }
 
     override fun openAllCollections() {
@@ -91,17 +92,17 @@ class HomeActivity : AppCompatActivity(), HomeContract.View, RecyclerViewItemCli
     override fun onFooterClick(footer: Footer?) {
         val type = footer?.type
         if (type === Footer.Type.Collection) {
-            homePresenter!!.viewAllCollections()
+            homePresenter.viewAllCollections()
         } else {
-            homePresenter!!.viewAllPhotos()
+            homePresenter.viewAllPhotos()
         }
     }
 
     override fun onItemClick(baseModel: BaseModel?) {
         if (baseModel is Photo) {
-            homePresenter!!.openPhoto(baseModel as Photo?)
+            homePresenter.openPhoto(baseModel as Photo?)
         } else if (baseModel is Collection) {
-            homePresenter!!.openCollection(baseModel as Collection?)
+            homePresenter.openCollection(baseModel as Collection?)
         }
     }
 
@@ -109,9 +110,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View, RecyclerViewItemCli
 
     fun setToolbar() {}
 
-    @OnClick(R.id.activity_home_search_CV)
-    fun openSearch() {
-        val intent: Intent = SearchActivity.Companion.getSearchIntent(this)
+    private fun openSearch() {
+        val intent: Intent = SearchActivity.getSearchIntent(this)
         startActivity(intent)
     }
 }

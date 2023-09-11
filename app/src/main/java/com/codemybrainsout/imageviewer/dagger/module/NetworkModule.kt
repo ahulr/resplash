@@ -37,7 +37,7 @@ class NetworkModule {
 
     @ApplicationScope
     @Provides
-    fun interceptor(@ApplicationContext context: Context?): Interceptor {
+    fun interceptor(@ApplicationContext context: Context): Interceptor {
         return Interceptor { chain ->
             val original: Request = chain.request()
             val builder: Request.Builder = if (NetworkUtils.hasNetwork(context)) {
@@ -79,8 +79,8 @@ class NetworkModule {
     @ApplicationScope
     @Provides
     fun okHttpClient(
-        interceptor: Interceptor?,
-        httpLoggingInterceptor: HttpLoggingInterceptor?,
+        interceptor: Interceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor,
         cache: Cache?
     ): OkHttpClient {
         return OkHttpClient.Builder()
@@ -97,7 +97,7 @@ class NetworkModule {
     fun retrofit(okHttpClient: OkHttpClient?): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.ENDPOINT)
-            .client(httpClient)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

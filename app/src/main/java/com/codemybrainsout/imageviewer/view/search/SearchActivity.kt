@@ -93,18 +93,18 @@ class SearchActivity : AppCompatActivity(), SearchContract.View, RecyclerViewIte
         startActivity(intent)
     }
 
-    override fun refreshPhotos(list: List<Photo?>) {
+    override fun refreshPhotos(list: List<Photo>) {
         if (list.isNotEmpty()) {
             binding.swipeRefreshLayout.isEnabled = true
         }
         multiViewAdapter.setPhotos(list)
     }
 
-    override fun addPhotos(list: List<Photo?>?) {
+    override fun addPhotos(list: List<Photo>) {
         multiViewAdapter.addPhotos(list)
     }
 
-    override fun showError(s: String?) {
+    override fun showError(s: String) {
         binding.root.showErrorSnackbar(s)
     }
 
@@ -116,12 +116,6 @@ class SearchActivity : AppCompatActivity(), SearchContract.View, RecyclerViewIte
     fun onSearchConfirmed(text: CharSequence) {
         query = text.toString()
         searchPresenter.searchPhotos(text.toString(), page, limit)
-    }
-
-    fun onButtonClicked(buttonCode: Int) {
-        when (buttonCode) {
-            MaterialSearchBar.BUTTON_NAVIGATION -> finish()
-        }
     }
 
     override fun onItemClick(baseModel: BaseModel?) {

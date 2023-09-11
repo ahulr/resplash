@@ -26,7 +26,7 @@ class CollectionAdapter(private val mContext: Context) : RecyclerView.Adapter<Co
 
     private val collectionList: MutableList<Collection> = ArrayList()
     private var lastAnimatedPosition = -1
-    var recyclerViewItemClickListener: RecyclerViewItemClickListener? = null
+    private var recyclerViewItemClickListener: RecyclerViewItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder {
         val collectionBinding: ItemCollectionBinding = DataBindingUtil.inflate(

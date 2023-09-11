@@ -26,19 +26,13 @@ class HomePresenter @Inject constructor(
         photoService.getPhotos(page, limit, orderBy)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.hideLoading()
-                    view.showError(e.message)
-                }
-
-                override fun onComplete() {}
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    view.hideLoading()
-                    view.setPhotos(photos)
-                }
+            .subscribe({
+                view.hideLoading()
+                view.setPhotos(it)
+            }, {
+                it.printStackTrace()
+                view.hideLoading()
+                view.showError(it.message)
             })
     }
 
@@ -46,18 +40,11 @@ class HomePresenter @Inject constructor(
         collectionService.getFeaturedCollections(page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Collection>> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(collections: List<Collection>) {
-                    view.setCollections(collections)
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.showError(e.message)
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                view.setCollections(it)
+            }, {
+                it.printStackTrace()
+                view.showError(it.message)
             })
     }
 

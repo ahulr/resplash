@@ -6,5 +6,5 @@ package com.codemybrainsout.imageviewer.view.base
 interface BaseView<T> {
     fun showLoading()
     fun hideLoading()
-    fun showError(s: String?)
+    fun showError(s: String)
 }

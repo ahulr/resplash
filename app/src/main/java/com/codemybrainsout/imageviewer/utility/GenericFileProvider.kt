@@ -1,8 +1,6 @@
 package com.codemybrainsout.imageviewer.utility
 
 import androidx.core.content.FileProvider
+import com.codemybrainsout.imageviewer.R
 
-/**
- * Created by ahulr on 31-12-2017.
- */
-class GenericFileProvider : FileProvider()
+internal class GenericFileProvider : FileProvider(R.xml.provider_paths)

@@ -14,9 +14,6 @@ import dagger.hilt.android.components.ActivityComponent
 @InstallIn(ActivityComponent::class)
 abstract class DetailModule {
 
-    @Provides
-    abstract fun photoService(): PhotoService
-
     @Binds
     abstract fun bindActivity(activity: DetailActivity): DetailContract.View
 

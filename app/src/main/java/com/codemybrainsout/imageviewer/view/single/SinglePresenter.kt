@@ -35,20 +35,13 @@ class SinglePresenter @Inject constructor(
         collectionService.getSingleCollection(collectionId, page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    view.refreshPhotos(photos)
-                    view.hideLoading()
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.showError(e.message)
-                    view.hideLoading()
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                view.refreshPhotos(it)
+                view.hideLoading()
+            }, {
+                it.printStackTrace()
+                view.showError(it.message)
+                view.hideLoading()
             })
     }
 
@@ -57,20 +50,16 @@ class SinglePresenter @Inject constructor(
         collectionService.getSingleCollection(collectionId, page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    view.addPhotos(photos)
+            .subscribe(
+                {
+                    view.addPhotos(it)
+                    view.hideLoading()
+                },
+                {
+                    it.printStackTrace()
+                    view.showError(it.message)
                     view.hideLoading()
                 }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.showError(e.message)
-                    view.hideLoading()
-                }
-
-                override fun onComplete() {}
-            })
+            )
     }
 }

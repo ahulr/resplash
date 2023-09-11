@@ -27,7 +27,9 @@ class PhotoActivity : AppCompatActivity(), PhotoContract.View, RecyclerViewItemC
 
     private val binding by viewBinding(ActivityPhotoBinding::inflate)
 
-    private lateinit var photoAdapter: PhotoAdapter
+    private val photoAdapter: PhotoAdapter by lazy {
+        PhotoAdapter(this)
+    }
 
     @Inject
     lateinit var photoPresenter: PhotoPresenter
@@ -40,7 +42,6 @@ class PhotoActivity : AppCompatActivity(), PhotoContract.View, RecyclerViewItemC
         super.onCreate(savedInstanceState)
         setToolbar()
 
-        photoAdapter = PhotoAdapter(this)
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         photoAdapter.setRecyclerViewItemClickListener(this)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -87,19 +88,18 @@ class PhotoActivity : AppCompatActivity(), PhotoContract.View, RecyclerViewItemC
         s?.let { binding.root.showErrorSnackbar(it) }
     }
 
-    fun setToolbar() {
-        setSupportActionBar(activityPhotoToolbar)
-        val actionBar: ActionBar = getSupportActionBar()
-        if (actionBar != null) {
-            actionBar.setTitle(getString(R.string.title_photo))
-            actionBar.setDisplayShowTitleEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
+    private fun setToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.let {
+            it.setTitle(getString(R.string.title_photo))
+            it.setDisplayShowTitleEnabled(true)
+            it.setDisplayHomeAsUpEnabled(true)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.home) {
+        if (id == android.R.id.home) {
             onBackPressed()
             return true
         }

@@ -28,7 +28,9 @@ class CollectionActivity : AppCompatActivity(), CollectionContract.View, Recycle
     @Inject
     lateinit var collectionPresenter: CollectionPresenter
 
-    private lateinit var collectionAdapter: CollectionAdapter
+    private val collectionAdapter: CollectionAdapter by lazy {
+        CollectionAdapter(this)
+    }
 
     private var page = 1
     private val limit = 20
@@ -36,7 +38,6 @@ class CollectionActivity : AppCompatActivity(), CollectionContract.View, Recycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        collectionAdapter = CollectionAdapter(this)
         collectionAdapter.setRecyclerViewItemClickListener(this)
 
         binding.apply {

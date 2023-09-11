@@ -27,20 +27,13 @@ class CollectionPresenter @Inject constructor(
         collectionService.getFeaturedCollections(page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Collection>> {
-                override fun onSubscribe(@NonNull d: Disposable?) {}
-                override fun onNext(@NonNull collections: List<Collection>) {
-                    mView.refreshCollections(collections)
-                    mView.hideLoading()
-                }
-
-                override fun onError(@NonNull e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                    mView.hideLoading()
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                mView.refreshCollections(it)
+                mView.hideLoading()
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
+                mView.hideLoading()
             })
     }
 
@@ -48,18 +41,11 @@ class CollectionPresenter @Inject constructor(
         collectionService.getFeaturedCollections(page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Collection>> {
-                override fun onSubscribe(@NonNull d: Disposable?) {}
-                override fun onNext(@NonNull collections: List<Collection>) {
-                    mView.addCollections(collections)
-                }
-
-                override fun onError(@NonNull e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                mView.addCollections(it)
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
             })
     }
 

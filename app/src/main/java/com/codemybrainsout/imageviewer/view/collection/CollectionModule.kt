@@ -14,9 +14,6 @@ import dagger.hilt.android.components.ActivityComponent
 @InstallIn(ActivityComponent::class)
 abstract class CollectionModule {
 
-    @Provides
-    abstract fun bindService(): CollectionService
-
     @Binds
     abstract fun bindActivity(activity: CollectionActivity): CollectionContract.View
 

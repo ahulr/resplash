@@ -26,19 +26,13 @@ class DetailPresenter @Inject constructor(
         photoService.getSinglePhoto(photoId)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<Photo> {
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    view.showError(e.message)
-                    view.hideLoading()
-                }
-
-                override fun onComplete() {}
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photo: Photo) {
-                    view.showPhoto(photo)
-                    view.hideLoading()
-                }
+            .subscribe({
+                view.showPhoto(it)
+                view.hideLoading()
+            }, {
+                it.printStackTrace()
+                view.showError(it.message)
+                view.hideLoading()
             })
     }
 

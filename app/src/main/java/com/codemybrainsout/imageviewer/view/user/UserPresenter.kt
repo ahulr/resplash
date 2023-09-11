@@ -22,20 +22,13 @@ class UserPresenter @Inject constructor(
         userService.getUser(username)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<User> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(user: User) {
-                    mView.showUser(user)
-                    mView.hideLoading()
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                    mView.hideLoading()
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                mView.showUser(it)
+                mView.hideLoading()
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
+                mView.hideLoading()
             })
     }
 
@@ -43,18 +36,11 @@ class UserPresenter @Inject constructor(
         userService.getUserPhotos(username, page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    mView.refreshPhotos(photos)
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                mView.refreshPhotos(it)
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
             })
     }
 
@@ -62,18 +48,11 @@ class UserPresenter @Inject constructor(
         userService.getUserPhotos(username, page, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    mView.addPhotos(photos)
-                }
-
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                }
-
-                override fun onComplete() {}
+            .subscribe({
+                mView.addPhotos(it)
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
             })
     }
 

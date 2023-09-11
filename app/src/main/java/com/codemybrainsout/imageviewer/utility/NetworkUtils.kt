@@ -8,8 +8,16 @@ import android.net.ConnectivityManager
  */
 object NetworkUtils {
     fun hasNetwork(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = cm.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        var isConnected = false // Initial Value
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        if (null != activeNetwork) {
+            if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
+                isConnected = true
+            } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
+                isConnected = true
+            }
+        }
+        return isConnected
     }
 }
