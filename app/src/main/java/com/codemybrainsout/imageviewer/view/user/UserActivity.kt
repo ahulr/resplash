@@ -39,7 +39,7 @@ class UserActivity : AppCompatActivity(), UserContract.View, RecyclerViewItemCli
     private val page = 1
     private val limit = 20
 
-    private val multiViewAdapter: MultiViewAdapter by lazy { MultiViewAdapter(this) }
+    private val multiViewAdapter: MultiViewAdapter by lazy { MultiViewAdapter() }
     private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +97,7 @@ class UserActivity : AppCompatActivity(), UserContract.View, RecyclerViewItemCli
         if (!TextUtils.isEmpty(user.profileImage!!.large)) {
             Glide.with(this)
                 .load(user.profileImage!!.large)
-                .transform(BlurTransformation(this, 15))
+                .transform(BlurTransformation(this))
                 .into(binding.imageViewBackground)
         }
         beginEnterTransition()

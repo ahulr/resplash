@@ -1,13 +1,11 @@
 package com.codemybrainsout.imageviewer.view.detail
 
-import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.graphics.Color.parseColor
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -32,8 +30,10 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import com.vmadalin.easypermissions.models.PermissionRequest
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailActivity : BaseActivity(), DetailContract.View, EasyPermissions.PermissionCallbacks {
 
     private val binding by viewBinding(ActivityDetailBinding::inflate)

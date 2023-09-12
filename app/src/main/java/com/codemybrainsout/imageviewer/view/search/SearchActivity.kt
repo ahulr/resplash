@@ -20,9 +20,11 @@ import com.codemybrainsout.imageviewer.model.User
 import com.codemybrainsout.imageviewer.utility.PrefHelper
 import com.codemybrainsout.imageviewer.view.detail.DetailActivity
 import com.codemybrainsout.imageviewer.view.home.MultiViewAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity(), SearchContract.View, RecyclerViewItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
@@ -30,7 +32,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.View, RecyclerViewIte
 
     private val binding by viewBinding(ActivitySearchBinding::inflate)
 
-    private lateinit var multiViewAdapter: MultiViewAdapter
+    private val multiViewAdapter: MultiViewAdapter by lazy { MultiViewAdapter() }
 
     private var lastSearches: List<String>? = null
     private var page = 1
@@ -89,7 +91,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.View, RecyclerViewIte
 
     override fun showUser(user: User?) {}
     override fun showPhoto(photo: Photo?) {
-        val intent: Intent = DetailActivity.Companion.getDetailActivityIntent(this, photo)
+        val intent: Intent = DetailActivity.getDetailActivityIntent(this, photo)
         startActivity(intent)
     }
 
@@ -104,8 +106,8 @@ class SearchActivity : AppCompatActivity(), SearchContract.View, RecyclerViewIte
         multiViewAdapter.addPhotos(list)
     }
 
-    override fun showError(s: String) {
-        binding.root.showErrorSnackbar(s)
+    override fun showError(s: String?) {
+        s?.let { binding.root.showErrorSnackbar(it) }
     }
 
     fun onSearchStateChanged(enabled: Boolean) {

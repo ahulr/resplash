@@ -46,7 +46,9 @@ class SearchPresenter @Inject constructor(private val searchService: SearchServi
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 val photos: List<Photo>? = it.results
-                view.addPhotos(photos)
+                if (photos != null) {
+                    view.addPhotos(photos)
+                }
             }, {
                 it.printStackTrace()
                 view.showError(it.message)

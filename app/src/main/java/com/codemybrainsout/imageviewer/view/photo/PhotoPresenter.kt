@@ -30,19 +30,13 @@ class PhotoPresenter @Inject constructor(
         photoService.getPhotos(page, limit, orderBy)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                    mView.hideLoading()
-                }
-
-                override fun onComplete() {}
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    mView.refreshPhotos(photos)
-                    mView.hideLoading()
-                }
+            .subscribe({
+                mView.refreshPhotos(it)
+                mView.hideLoading()
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
+                mView.hideLoading()
             })
     }
 
@@ -50,17 +44,12 @@ class PhotoPresenter @Inject constructor(
         photoService.getPhotos(page, limit, orderBy)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<Photo>> {
-                override fun onError(e: Throwable) {
-                    e.printStackTrace()
-                    mView.showError(e.message)
-                }
-
-                override fun onComplete() {}
-                override fun onSubscribe(d: Disposable?) {}
-                override fun onNext(photos: List<Photo>) {
-                    mView.addPhotos(photos)
-                }
+            .subscribe({
+                mView.addPhotos(it)
+            }, {
+                it.printStackTrace()
+                mView.showError(it.message)
             })
+
     }
 }

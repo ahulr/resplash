@@ -18,20 +18,21 @@ import com.codemybrainsout.imageviewer.view.detail.DetailActivity
 import com.codemybrainsout.imageviewer.view.photo.PhotoActivity
 import com.codemybrainsout.imageviewer.view.search.SearchActivity
 import com.codemybrainsout.imageviewer.view.single.SingleCollectionActivity
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), HomeContract.View, RecyclerViewItemClickListener, FooterItemClickListener {
 
     private val binding by viewBinding(ActivityHomeBinding::inflate)
-
-    @Inject
-    lateinit var multiViewAdapter: MultiViewAdapter
 
     @Inject
     lateinit var homePresenter: HomePresenter
 
     var limit = 6
     private var orderBy = "latest"
+
+    private val multiViewAdapter: MultiViewAdapter by lazy { MultiViewAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

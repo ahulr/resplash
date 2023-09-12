@@ -23,19 +23,16 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-    @ApplicationScope
     @Provides
     fun file(@ApplicationContext context: Context): File {
         return File(context.cacheDir, "cache")
     }
 
-    @ApplicationScope
     @Provides
     fun cache(file: File): Cache {
         return Cache(file, 10 * 1024 * 1024)
     }
-
-    @ApplicationScope
+    
     @Provides
     fun interceptor(@ApplicationContext context: Context): Interceptor {
         return Interceptor { chain ->
@@ -70,13 +67,11 @@ class NetworkModule {
         }
     }
 
-    @ApplicationScope
     @Provides
     fun httpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
-    @ApplicationScope
     @Provides
     fun okHttpClient(
         interceptor: Interceptor,
@@ -92,9 +87,8 @@ class NetworkModule {
             .build()
     }
 
-    @ApplicationScope
     @Provides
-    fun retrofit(okHttpClient: OkHttpClient?): Retrofit {
+    fun retrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.ENDPOINT)
             .client(okHttpClient)

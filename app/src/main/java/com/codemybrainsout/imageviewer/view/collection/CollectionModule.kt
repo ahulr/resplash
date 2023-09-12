@@ -1,9 +1,7 @@
 package com.codemybrainsout.imageviewer.view.collection
 
-import com.codemybrainsout.imageviewer.api.CollectionService
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 

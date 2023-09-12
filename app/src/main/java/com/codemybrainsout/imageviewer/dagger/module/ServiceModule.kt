@@ -22,43 +22,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 @InstallIn(SingletonComponent::class)
 class ServiceModule {
 
-    @ApplicationScope
-    @Provides
-    fun retrofit(httpClient: OkHttpClient?): Retrofit {
-        return provideRetrofit(httpClient)
-    }
-
-    @ApplicationScope
     @Provides
     fun photoService(retrofit: Retrofit): PhotoService {
         return retrofit.create(PhotoService::class.java)
     }
 
-    @ApplicationScope
     @Provides
     fun collectionService(retrofit: Retrofit): CollectionService {
         return retrofit.create(CollectionService::class.java)
     }
 
-    @ApplicationScope
     @Provides
     fun userService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
-    @ApplicationScope
     @Provides
     fun searchService(retrofit: Retrofit): SearchService {
         return retrofit.create(SearchService::class.java)
-    }
-
-    companion object {
-        fun provideRetrofit(httpClient: OkHttpClient?): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl(BuildConfig.ENDPOINT)
-                .client(httpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
     }
 }

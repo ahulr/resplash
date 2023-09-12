@@ -1,15 +1,14 @@
 package com.codemybrainsout.imageviewer.view.home
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.codemybrainsout.imageviewer.R
 import com.codemybrainsout.imageviewer.databinding.ItemCollectionMinimalBinding
+import com.codemybrainsout.imageviewer.databinding.ItemFooterBinding
 import com.codemybrainsout.imageviewer.databinding.ItemPhotoMinimalBinding
 import com.codemybrainsout.imageviewer.listener.FooterItemClickListener
 import com.codemybrainsout.imageviewer.listener.RecyclerViewItemClickListener
@@ -17,12 +16,11 @@ import com.codemybrainsout.imageviewer.model.BaseModel
 import com.codemybrainsout.imageviewer.model.Collection
 import com.codemybrainsout.imageviewer.model.Footer
 import com.codemybrainsout.imageviewer.model.Photo
-import java.util.ArrayList
 
 /**
  * Created by ahulr on 10-06-2017.
  */
-class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
+class MultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
 
     companion object {
         private const val VIEW_TYPE_PHOTO = 100
@@ -30,7 +28,7 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         private const val VIEW_TYPE_FOOTER = 102
     }
 
-    var itemList: MutableList<BaseModel> = ArrayList<BaseModel>()
+    private var itemList: MutableList<BaseModel> = ArrayList()
     private var recyclerViewItemClickListener: RecyclerViewItemClickListener? = null
     private var footerItemClickListener: FooterItemClickListener? = null
 
@@ -50,18 +48,18 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_PHOTO -> {
-                var v = inflater.inflate(R.layout.item_photo_minimal, parent, false)
-                PhotoViewHolder(v)
+                val binding = ItemPhotoMinimalBinding.inflate(inflater, parent, false)
+                PhotoViewHolder(binding)
             }
 
             VIEW_TYPE_COLLECTION -> {
-                var v = inflater.inflate(R.layout.item_collection_minimal, parent, false)
-                CollectionViewHolder(v)
+                val binding = ItemCollectionMinimalBinding.inflate(inflater, parent, false)
+                CollectionViewHolder(binding)
             }
 
-            VIEW_TYPE_FOOTER -> {
-                var v = inflater.inflate(R.layout.item_footer, parent, false)
-                val viewHolder = FooterViewHolder(v)
+            else -> {
+                val binding = ItemFooterBinding.inflate(inflater, parent, false)
+                val viewHolder = FooterViewHolder(binding)
                 val layoutParams: StaggeredGridLayoutManager.LayoutParams =
                     viewHolder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
                 layoutParams.isFullSpan = true
@@ -80,31 +78,18 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
     private fun setFooter(holder: FooterViewHolder, position: Int) {
         val footer: Footer = itemList[position] as Footer
-        if (footer.type === Footer.Type.Collection) {
-            holder.itemFooterTV.setText(context.getString(R.string.browse_all_collections))
-        } else {
-            holder.itemFooterTV.setText(context.getString(R.string.browse_all_photos))
-        }
+        holder.bind(footer, footerItemClickListener)
     }
 
     private fun setCollection(holder: CollectionViewHolder, position: Int) {
         val collection = itemList[position] as Collection
-        holder.itemCollectionalMinimalIV.setBackgroundColor(
-            Color.parseColor(
-                collection.coverPhoto!!.color
-            )
-        )
-        Glide.with(context)
-            .load(collection.coverPhoto!!.urls!!.small)
-            .into(holder.itemCollectionalMinimalIV)
+        holder.bind(collection, recyclerViewItemClickListener)
+
     }
 
     private fun setPhoto(holder: PhotoViewHolder, position: Int) {
         val photo = itemList[position] as Photo
-        holder.itemPhotoMinimalIV.setBackgroundColor(Color.parseColor(photo.color))
-        Glide.with(context)
-            .load(photo.urls!!.small)
-            .into(holder.itemPhotoMinimalIV)
+        holder.bind(photo, recyclerViewItemClickListener)
     }
 
     fun setFooter(type: Footer.Type) {
@@ -122,10 +107,6 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
             itemList[itemList.indexOf(baseModel)] = baseModel
             notifyItemChanged(itemList.indexOf(baseModel))
         }
-    }
-
-    fun setFooterItemClickListener(footerItemClickListener: FooterItemClickListener?) {
-        this.footerItemClickListener = footerItemClickListener
     }
 
     fun setPhotos(list: List<Photo>) {
@@ -146,53 +127,55 @@ class MultiViewAdapter(private val context: Context) : RecyclerView.Adapter<Recy
         }
     }
 
-    inner class PhotoViewHolder(binding: ItemPhotoMinimalBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-        @BindView(R.id.item_photo_minimal_IV)
-        var itemPhotoMinimalIV: SquareImageView? = null
-        override fun onClick(view: View) {
-            if (recyclerViewItemClickListener != null) {
-                recyclerViewItemClickListener.onItemClick(itemList[getAdapterPosition()] as Photo)
-            }
-        }
-
-        init {
-            ButterKnife.bind(this, itemView)
-            itemView.setOnClickListener(this)
-        }
-    }
-
-    inner class CollectionViewHolder(binding: ItemCollectionMinimalBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-        @BindView(R.id.item_collection_minimal_IV)
-        var itemCollectionalMinimalIV: SquareImageView? = null
-        override fun onClick(view: View) {
-            if (recyclerViewItemClickListener != null) {
-                recyclerViewItemClickListener.onItemClick(itemList[getAdapterPosition()] as Collection)
-            }
-        }
-
-        init {
-            ButterKnife.bind(this, itemView)
-            itemView.setOnClickListener(this)
-        }
-    }
-
-    inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        @BindView(R.id.item_footer_TV)
-        var itemFooterTV: TextView? = null
-        override fun onClick(view: View) {
-            if (footerItemClickListener != null) {
-                footerItemClickListener.onFooterClick(itemList[getAdapterPosition()] as Footer)
-            }
-        }
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-    }
-
     fun setRecyclerViewItemClickListener(recyclerViewItemClickListener: RecyclerViewItemClickListener?) {
         this.recyclerViewItemClickListener = recyclerViewItemClickListener
     }
 
+    fun setFooterItemClickListener(footerItemClickListener: FooterItemClickListener?) {
+        this.footerItemClickListener = footerItemClickListener
+    }
+
     override fun getItemCount() = itemList.size
+}
+
+internal class PhotoViewHolder(val binding: ItemPhotoMinimalBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(photo: Photo, recyclerViewItemClickListener: RecyclerViewItemClickListener?) {
+        binding.itemPhotoMinimalIV.setBackgroundColor(Color.parseColor(photo.color))
+        Glide.with(binding.root.context)
+            .load(photo.urls!!.small)
+            .into(binding.itemPhotoMinimalIV)
+        recyclerViewItemClickListener?.onItemClick(photo)
+    }
+}
+
+internal class CollectionViewHolder(val binding: ItemCollectionMinimalBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(collection: Collection, recyclerViewItemClickListener: RecyclerViewItemClickListener?) {
+        binding.itemCollectionMinimalIV.setBackgroundColor(
+            Color.parseColor(
+                collection.coverPhoto!!.color
+            )
+        )
+        Glide.with(binding.root.context)
+            .load(collection.coverPhoto!!.urls!!.small)
+            .into(binding.itemCollectionMinimalIV)
+        recyclerViewItemClickListener?.onItemClick(collection)
+    }
+}
+
+internal class FooterViewHolder(val binding: ItemFooterBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(footer: Footer, footerItemClickListener: FooterItemClickListener?) {
+        if (footer.type === Footer.Type.Collection) {
+            binding.itemFooterTV.text = binding.root.context.getString(R.string.browse_all_collections)
+        } else {
+            binding.itemFooterTV.text = binding.root.context.getString(R.string.browse_all_photos)
+        }
+
+        itemView.setOnClickListener {
+            footerItemClickListener?.onFooterClick(footer)
+        }
+
+    }
 }

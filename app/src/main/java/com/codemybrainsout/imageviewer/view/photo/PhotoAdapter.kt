@@ -19,7 +19,7 @@ import java.util.ArrayList
 /**
  * Created by ahulr on 06-06-2017.
  */
-class PhotoAdapter(private val mContext: Context?) : RecyclerView.Adapter<PhotoAdapter.BindingHolder?>() {
+class PhotoAdapter(private val mContext: Context) : RecyclerView.Adapter<PhotoAdapter.BindingHolder?>() {
 
     companion object {
         private const val ANIMATED_ITEMS_COUNT = 3
@@ -27,7 +27,7 @@ class PhotoAdapter(private val mContext: Context?) : RecyclerView.Adapter<PhotoA
 
     private val photoList: MutableList<Photo> = ArrayList()
     private var lastAnimatedPosition = -1
-    var recyclerViewItemClickListener: RecyclerViewItemClickListener? = null
+    private var recyclerViewItemClickListener: RecyclerViewItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder {
         val photoBinding: ItemPhotoBinding = DataBindingUtil.inflate(

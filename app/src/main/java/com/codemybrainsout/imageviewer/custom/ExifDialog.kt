@@ -13,19 +13,14 @@ import com.codemybrainsout.imageviewer.viewmodel.ExifViewModel
 /**
  * Created by ahulr on 11-06-2017.
  */
-class ExifDialog(context: Context, private val exif: Exif) : AppCompatDialog(
-    context, R.style.DialogTheme
-) {
-    override fun onCreate(savedInstanceState: Bundle) {
+class ExifDialog(context: Context, private val exif: Exif) : AppCompatDialog(context, R.style.DialogTheme) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //Data binding to set exif data directly to the UI
-        val exifBinding: LayoutExifBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.layout_exif,
-            null,
-            false
-        )
+        val inflater: LayoutInflater = LayoutInflater.from(context)
+        val exifBinding: LayoutExifBinding = DataBindingUtil.inflate(inflater, R.layout.layout_exif, null, false)
         setContentView(exifBinding.root)
         val exifViewModel = ExifViewModel(exif)
         exifBinding.exif = exifViewModel
